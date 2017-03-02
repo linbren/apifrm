@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd	
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- <context:component-scan base-package="net.business,net.platform.dao"></context:component-scan> -->
+	<!-- 只搜索@Controller 标注的类 不搜索其他标注的类 -->
+	<context:component-scan base-package="net.business.*.servlet"
+		use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!-- 对某些静态资源，如css,图片等进行过滤 ,有引用 "/webRoot/**" 的路径引用转到相应映射配置目录取资源 -->
+	<bean id="rpe" class="net.platform.utils.ResourcePathExposer"
+		init-method="init" />
+	<mvc:default-servlet-handler />
+	<!-- 开启注释 -->
+	<mvc:annotation-driven />
+
+	<!-- jsp视图解析器 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="order" value="2" />
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- 按bean 名称找view视图解析器, 优先级排序10 -->
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"
+		p:order="10" />
+	<!-- 针对类、方法级别的权限拦截器 -->
+<!-- 	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/*.do" />
+			<bean class="net.platform.interceptors.AuthenInterceptor">
+				<property name="excludeUrls">
+					<list>
+						<value>login.do?toLogin</value>
+						<value>login.do?checkUser</value>
+						<value>login.do?getVcode</value>
+					</list>
+				</property>
+				<property name="excludeactions">
+					<list>
+						<value></value>
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+
+	</mvc:interceptors> -->
+	<!-- 错误解析器 -->
+	<bean id="exceptionResolver"
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="defaultErrorView" value="error/exception" />
+		<property name="exceptionMappings">
+			<props>
+				<prop key="java.sql.SQLException">error/exception</prop>
+				<prop key="org.springframework.transaction.TransactionException">
+					error/exception
+				</prop>
+				<prop key="org.springframework.dao.DataAccessException">
+					error/exception
+				</prop>
+				<prop key="java.lang.RuntimeException">error/exception</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 支持上传文件 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	</bean>
+
+</beans>
