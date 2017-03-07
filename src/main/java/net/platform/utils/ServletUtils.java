@@ -28,9 +28,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
-
 import org.apache.commons.lang3.StringUtils;
+
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 /**
  * 
  * 功能描述：Http与Servlet工具类.
@@ -613,7 +614,7 @@ public class ServletUtils {
             Object obj) {
         response.setHeader("Cache-Control", "no-store");
         response.setContentType("application/json");
-        String json = JSON.toJSONString(obj);
+        String json = JSON.toJSONString(obj,SerializerFeature.WriteMapNullValue);
         System.out.println("json:"+json);
         try {
             PrintWriter pw = response.getWriter();

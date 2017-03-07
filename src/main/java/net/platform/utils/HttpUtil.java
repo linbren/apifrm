@@ -43,7 +43,7 @@ import org.apache.http.util.EntityUtils;
 public class HttpUtil {  
     private static PoolingHttpClientConnectionManager connMgr;  
     private static RequestConfig requestConfig;  
-    private static final int MAX_TIMEOUT = 7000;  
+    private static final int MAX_TIMEOUT = 60000;  
   
     static {  
         // 设置连接池  
@@ -141,10 +141,10 @@ public class HttpUtil {
                         .getValue().toString());  
                 pairList.add(pair);  
             }  
-            httpPost.setEntity(new UrlEncodedFormEntity(pairList, Charset.forName("UTF-8")));  
+            httpPost.setEntity(new UrlEncodedFormEntity(pairList, "UTF-8"));  
             response = httpClient.execute(httpPost);  
-            System.out.println(response.toString());  
-            HttpEntity entity = response.getEntity();  
+/*            System.out.println(response.toString());  
+*/            HttpEntity entity = response.getEntity();  
             httpStr = EntityUtils.toString(entity, "UTF-8");  
         } catch (IOException e) {  
             e.printStackTrace();  
@@ -166,7 +166,7 @@ public class HttpUtil {
      * @param json json对象 
      * @return 
      */  
-    public static String doPost(String apiUrl, Object json) {  
+/*    public static String doPost(String apiUrl, Object json) {  
         CloseableHttpClient httpClient = HttpClients.createDefault();  
         String httpStr = null;  
         HttpPost httpPost = new HttpPost(apiUrl);  
@@ -195,7 +195,7 @@ public class HttpUtil {
         }  
         return httpStr;  
     }  
-  
+  */
     /** 
      * 发送 SSL POST 请求（HTTPS），K-V形式 
      * @param apiUrl API接口URL 

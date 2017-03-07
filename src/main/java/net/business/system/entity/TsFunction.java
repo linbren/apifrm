@@ -1,24 +1,32 @@
-package net.business.test.entity;
+package net.business.system.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 /**
 * TS_FUNCTION 实体类
 * @author yiting lin
-* created 2017-03-02 14:08:16
+* created 2016-12-13 15:44:29
 */ 
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "TS_FUNCTION", schema = "")
-public class TsFunction implements java.io.Serializable {
+public class TsFunction  implements java.io.Serializable {
     /** ID*/ 
     @Column(name = "ID")
     @Id
- 	@GeneratedValue(strategy=GenerationType.IDENTITY)  
+ 	@GeneratedValue(strategy=GenerationType.IDENTITY)  	    
     private String id;
     /** APP_ID*/ 
     @Column(name = "APP_ID")
@@ -56,10 +64,15 @@ public class TsFunction implements java.io.Serializable {
     /** REMARK*/ 
     @Column(name = "REMARK")
     private String remark;
+    /** TS_ROLE_FUNCTION*/
+    @ManyToMany(mappedBy="functions",fetch=FetchType.EAGER,targetEntity=TsRole.class,
+    		cascade=CascadeType.REFRESH)
+    private Set<TsRole> roles = new HashSet<TsRole>();
+    
     /**
     * setId
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @param ID
     */ 
     public void setId(String id){
@@ -68,7 +81,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * getId
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @return int identity
     */ 
     public String getId(){
@@ -77,7 +90,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * setAppId
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @param APP_ID
     */ 
     public void setAppId(String appId){
@@ -86,7 +99,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * getAppId
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @return String
     */ 
     public String getAppId(){
@@ -95,7 +108,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * setFuncCode
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @param FUNC_CODE
     */ 
     public void setFuncCode(String funcCode){
@@ -104,7 +117,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * getFuncCode
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @return String
     */ 
     public String getFuncCode(){
@@ -113,7 +126,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * setFuncName
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @param FUNC_NAME
     */ 
     public void setFuncName(String funcName){
@@ -122,7 +135,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * getFuncName
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @return String
     */ 
     public String getFuncName(){
@@ -131,7 +144,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * setFuncUrl
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @param FUNC_URL
     */ 
     public void setFuncUrl(String funcUrl){
@@ -140,7 +153,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * getFuncUrl
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @return String
     */ 
     public String getFuncUrl(){
@@ -149,7 +162,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * setFuncMethod
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @param FUNC_METHOD
     */ 
     public void setFuncMethod(String funcMethod){
@@ -158,7 +171,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * getFuncMethod
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @return String
     */ 
     public String getFuncMethod(){
@@ -167,7 +180,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * setFuncIcon
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @param FUNC_ICON
     */ 
     public void setFuncIcon(String funcIcon){
@@ -176,7 +189,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * getFuncIcon
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @return String
     */ 
     public String getFuncIcon(){
@@ -185,7 +198,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * setParentCode
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @param PARENT_CODE
     */ 
     public void setParentCode(String parentCode){
@@ -194,7 +207,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * getParentCode
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @return String
     */ 
     public String getParentCode(){
@@ -203,7 +216,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * setFuncType
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @param FUNC_TYPE
     */ 
     public void setFuncType(String funcType){
@@ -212,7 +225,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * getFuncType
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @return String
     */ 
     public String getFuncType(){
@@ -221,7 +234,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * setPermission
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @param PERMISSION
     */ 
     public void setPermission(String permission){
@@ -230,7 +243,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * getPermission
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @return String
     */ 
     public String getPermission(){
@@ -239,7 +252,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * setSortCode
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @param SORT_CODE
     */ 
     public void setSortCode(Integer sortCode){
@@ -248,7 +261,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * getSortCode
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @return Integer
     */ 
     public Integer getSortCode(){
@@ -257,7 +270,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * setIsValid
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @param IS_VALID
     */ 
     public void setIsValid(String isValid){
@@ -266,7 +279,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * getIsValid
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @return String
     */ 
     public String getIsValid(){
@@ -275,7 +288,7 @@ public class TsFunction implements java.io.Serializable {
     /**
     * setRemark
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @param REMARK
     */ 
     public void setRemark(String remark){
@@ -284,11 +297,30 @@ public class TsFunction implements java.io.Serializable {
     /**
     * getRemark
     * @author yiting lin
-    * @created 2017-03-02 14:08:16
+    * @created 2016-12-13 15:44:29
     * @return String
     */ 
     public String getRemark(){
         return remark;
     }
+    /**
+     * getRoles
+     * @author zhangxin
+     * @created 2016-12-13 15:54:34
+     * @return Set<TsRole>
+     */
+	public Set<TsRole> getRoles() {
+		return roles;
+	}
+	/**
+	 * setRoles
+	 * @author zhangxin
+	 * @created 2016-12-13 15:54:34
+	 * @param Set<TsRole>
+	 */
+	public void setRoles(Set<TsRole> roles) {
+		this.roles = roles;
+	}
+    
 }
 

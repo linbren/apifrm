@@ -14,67 +14,75 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.minidev.json.JSONObject;
+import net.api.ApiResp;
+import net.api.RetMsg;
 import net.platform.jwt.Jwt;
 import net.platform.jwt.TokenState;
+import net.platform.utils.ServletUtils;
 
-@WebFilter(urlPatterns="/api/*")
-public class Filter1_CheckToken  implements Filter {
+import org.apache.log4j.Logger;
+
+@WebFilter(urlPatterns = "/api/*")
+public class Filter1_CheckToken implements Filter {
+	protected Logger log = Logger.getLogger(this.getClass());
+	private ApiResp resp = new ApiResp();
 	@Override
 	public void doFilter(ServletRequest argo, ServletResponse arg1,
-			FilterChain chain ) throws IOException, ServletException {
-		HttpServletRequest request=(HttpServletRequest) argo;
-		HttpServletResponse response=(HttpServletResponse) arg1;
-		if(request.getRequestURI().endsWith("/api/login")){
-			//登陆接口不校验token，直接放行
+			FilterChain chain) throws IOException, ServletException {
+		HttpServletRequest request = (HttpServletRequest) argo;
+		HttpServletResponse response = (HttpServletResponse) arg1;
+		if (request.getRequestURI().endsWith("/api/login")) {
+			// 登陆接口不校验token，直接放行
 			chain.doFilter(request, response);
 			return;
 		}
-		//其他API接口一律校验token
-		System.out.println("开始校验token");
-		//从请求头中获取token
-		String token=request.getHeader("token");
-		Map<String, Object> resultMap=Jwt.validToken(token);
-		TokenState state=TokenState.getTokenState((String)resultMap.get("state"));
+		// 其他API接口一律校验token
+		log.debug("开始校验token");
+		// 从请求头中获取token
+		String token = request.getHeader("token");
+		Map<String, Object> resultMap = Jwt.validToken(token);
+		TokenState state = TokenState.getTokenState((String) resultMap
+				.get("state"));
 		switch (state) {
 		case VALID:
-			//取出payload中数据,放入到request作用域中
+			// 取出payload中数据,放入到request作用域中
 			request.setAttribute("data", resultMap.get("data"));
-			//放行
+			// 放行
 			chain.doFilter(request, response);
 			break;
 		case EXPIRED:
+			// token过期，则输出错误信息返回给ajax
+			resp.setRet(RetMsg.TOKEN_EXPIRED);
+			resp.setMsg(RetMsg.retMsg.get(RetMsg.TOKEN_EXPIRED));
+			ServletUtils.outPrintObjectToJson(response, resp);
+			break;
 		case INVALID:
-			System.out.println("无效token");
-			//token过期或者无效，则输出错误信息返回给ajax
-			JSONObject outputMSg=new JSONObject();
-			outputMSg.put("success", false);
-			outputMSg.put("msg", "您的token不合法或者过期了，请重新登陆");
-			output(outputMSg.toJSONString(), response);
+			// token过期或者无效，则输出错误信息返回给ajax
+			resp.setRet(RetMsg.TOKEN_INVALID);
+			resp.setMsg(RetMsg.retMsg.get(RetMsg.TOKEN_INVALID));
+			ServletUtils.outPrintObjectToJson(response, resp);
 			break;
 		}
-		
-		
 	}
-	
-	
-	public void output(String jsonStr,HttpServletResponse response) throws IOException{
+
+	public void output(String jsonStr, HttpServletResponse response)
+			throws IOException {
 		response.setContentType("text/html;charset=UTF-8;");
 		PrintWriter out = response.getWriter();
 		out.write(jsonStr);
 		out.flush();
 		out.close();
-		
+
 	}
-	
+
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
-		System.out.println("token过滤器初始化了");
+		log.debug("token过滤器初始化了");
 	}
 
 	@Override
 	public void destroy() {
-		
+
 	}
 
 }

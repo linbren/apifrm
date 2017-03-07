@@ -32,7 +32,7 @@ public class PasswordUtil {
     /**
      * 密钥
      */
-    public static final String Salt = "20161031";// 密钥
+    public static final String Salt = "20171031";// 密钥
 
     /**
      * 定义迭代次数为1000次

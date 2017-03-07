@@ -32,9 +32,9 @@ public class ResourcePathExposer implements ServletContextAware {
      *        </p>
      */
     public void init() {
-        this.getServletContext().setAttribute("webPath", getServletContext().getContextPath());
+/*        this.getServletContext().setAttribute("webPath", getServletContext().getContextPath());
         this.getServletContext().setAttribute("baidu_map_key", Const.BAIDU_MAP_KEY);
-        this.getServletContext().setAttribute("baidu_map_version", Const.BAIDU_MAP_VERSION);
+        this.getServletContext().setAttribute("baidu_map_version", Const.BAIDU_MAP_VERSION);*/
     }
 
     /**
