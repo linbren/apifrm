@@ -31,25 +31,8 @@ public class SystemTest extends BaseTest {
 	public String getAPIUrl(String action, String method) {
 		return baseUrl + action + '?' + method;
 	}
-
 	@Test
-	public void getToken() throws Exception {
-		System.out.println("testGetToken................");
-		String apiUrl = getAPIUrl("login.do", "getToken");
-		Map<String, Object> params = new HashMap<String, Object>();
-		try {
-			params.put("userCode", "admin");
-			params.put("userPass", "E10ADC3949BA59ABBE56E057F20F883E");
-			String Resp = HttpUtil.doPost(apiUrl, params);
-			System.out.println("testGetToken: " + Resp);
-		} catch (Exception e) {
-			System.out.println("testGetToken: " + e.getMessage());
-		}
-		System.out.println("................testGetToken");
-	}
-
-	@Test
-	public void testUrlencodedPost() {
+	public void testGetToken() {
 		HttpPost httpPost = new HttpPost(getAPIUrl("login.do", "getToken"));
 		try {
 			CloseableHttpClient client = HttpClients.createDefault();
@@ -66,7 +49,46 @@ public class SystemTest extends BaseTest {
 			httpPost.releaseConnection();
 		}
 	}
-
+	@Test
+	public void testGetFuncList() {
+		HttpPost httpPost = new HttpPost(getAPIUrl("/api/test.do", "getFuncList"));
+		try {
+			CloseableHttpClient client = HttpClients.createDefault();
+			List<NameValuePair> params = new ArrayList<NameValuePair>();
+			params.add(new BasicNameValuePair("page", "1"));
+			params.add(new BasicNameValuePair("rows","5"));
+			HttpEntity httpEntity = new UrlEncodedFormEntity(params, "UTF-8");
+			
+			httpPost.setHeader("userAgent", "ANDROID");
+			httpPost.setHeader("contentType", "application/json");
+			httpPost.setHeader("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJhZG1pbiIsInJvbGVzIjoiW3tcImFwcElkXCI6XCIxMDAwXCIsXCJmdW5jdGlvbnNcIjpbXSxcImlkXCI6XCIxXCIsXCJyZW1hcmtcIjpcIueuoeeQhuWRmFwiLFwicm9sZU5hbWVcIjpcIueuoeeQhuWRmFwiLFwic3RhdHVzXCI6XCIxXCIsXCJ1c2Vyc1wiOltdfSx7XCJhcHBJZFwiOlwiMTAwMFwiLFwiZnVuY3Rpb25zXCI6W10sXCJpZFwiOlwiNFwiLFwicmVtYXJrXCI6XCLmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5VcIixcInJvbGVOYW1lXCI6XCLmtYvor5VcIixcInN0YXR1c1wiOlwiMFwiLFwidXNlcnNcIjpbXX0se1wiYXBwSWRcIjpcIjMwMDBcIixcImZ1bmN0aW9uc1wiOltdLFwiaWRcIjpcIjhcIixcInJlbWFya1wiOlwiQVBJ566h55CG5ZGYXCIsXCJyb2xlTmFtZVwiOlwiQVBJ566h55CG5ZGYXCIsXCJzdGF0dXNcIjpcIjFcIixcInVzZXJzXCI6W119XSIsImlhdCI6MTQ4ODg3NDE4ODYwNiwiZXh0IjoxNDg4ODgxMzg4NjA2fQ.83kFyEWTYJWTcJJovoBgKJE2ro_X2y-e-tuEUj2JFfk");
+			httpPost.setHeader("version", "3");
+			httpPost.setHeader("timestamp", (new Date()).toString());
+		
+			httpPost.setEntity(httpEntity);
+			CloseableHttpResponse response = client.execute(httpPost);
+			System.out.println(EntityUtils.toString(response.getEntity()));
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			httpPost.releaseConnection();
+		}
+	}
+	@Test
+	public void getToken() throws Exception {
+		System.out.println("testGetToken................");
+		String apiUrl = getAPIUrl("login.do", "getToken");
+		Map<String, Object> params = new HashMap<String, Object>();
+		try {
+			params.put("userCode", "admin");
+			params.put("userPass", "E10ADC3949BA59ABBE56E057F20F883E");
+			String Resp = HttpUtil.doPost(apiUrl, params);
+			System.out.println("testGetToken: " + Resp);
+		} catch (Exception e) {
+			System.out.println("testGetToken: " + e.getMessage());
+		}
+		System.out.println("................testGetToken");
+	}	
 	@Test
 	public void getFuncList() throws Exception {
 		System.out.println(getMethodName() + "................................begin");
@@ -74,7 +96,7 @@ public class SystemTest extends BaseTest {
 		try {
 			Header[] headers = HttpHeader.custom().userAgent("javacl")
 					.contentType("application/json")
-					.other("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJhZG1pbiIsInJvbGVzIjoiW3tcImFwcElkXCI6XCIxMDAwXCIsXCJmdW5jdGlvbnNcIjpbXSxcImlkXCI6XCIxXCIsXCJyZW1hcmtcIjpcIueuoeeQhuWRmFwiLFwicm9sZU5hbWVcIjpcIueuoeeQhuWRmFwiLFwic3RhdHVzXCI6XCIxXCIsXCJ1c2Vyc1wiOltdfV0iLCJpYXQiOjE0ODg4NjU3MzQyMjYsImV4dCI6MTQ4ODg3MjkzNDIyNn0.n_diE2obN7N0smDfRLjfCUWz8oa8zsc5c-sOZhmrLpo")
+					.other("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJhZG1pbiIsInJvbGVzIjoiW3tcImFwcElkXCI6XCIxMDAwXCIsXCJmdW5jdGlvbnNcIjpbXSxcImlkXCI6XCIxXCIsXCJyZW1hcmtcIjpcIueuoeeQhuWRmFwiLFwicm9sZU5hbWVcIjpcIueuoeeQhuWRmFwiLFwic3RhdHVzXCI6XCIxXCIsXCJ1c2Vyc1wiOltdfSx7XCJhcHBJZFwiOlwiMTAwMFwiLFwiZnVuY3Rpb25zXCI6W10sXCJpZFwiOlwiNFwiLFwicmVtYXJrXCI6XCLmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5VcIixcInJvbGVOYW1lXCI6XCLmtYvor5VcIixcInN0YXR1c1wiOlwiMFwiLFwidXNlcnNcIjpbXX0se1wiYXBwSWRcIjpcIjMwMDBcIixcImZ1bmN0aW9uc1wiOltdLFwiaWRcIjpcIjhcIixcInJlbWFya1wiOlwiQVBJ566h55CG5ZGYXCIsXCJyb2xlTmFtZVwiOlwiQVBJ566h55CG5ZGYXCIsXCJzdGF0dXNcIjpcIjFcIixcInVzZXJzXCI6W119XSIsImlhdCI6MTQ4ODg3NDE4ODYwNiwiZXh0IjoxNDg4ODgxMzg4NjA2fQ.83kFyEWTYJWTcJJovoBgKJE2ro_X2y-e-tuEUj2JFfk")
 					.other("version", "3")
 					.other("timestamp", (new Date()).toString())
 					.build();

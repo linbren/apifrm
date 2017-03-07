@@ -63,14 +63,14 @@ public class LoginController extends BaseController {
 				Date date = new Date();
 				String token = null;
 				Long iat = date.getTime();
-				Long ext = iat + 2000 * 60 * 60;
+				Long ext = iat + 2000 * 60 * 60; //2小时2000 * 60 * 60
 
 				Map<String, Object> payload = new HashMap<String, Object>();
 				payload.put("uid", user.getUserCode());// 用户id
 				payload.put("iat", iat);// 生成时间:当前
-				payload.put("ext", ext);// 过期时间2小时2000 * 60 * 60
+				payload.put("ext", ext);// 过期时间
 				payload.put("roles", JSON.toJSONString(roleService
-						.getRoleByUserId(user.getId())));//
+						.getRoleIdsByUserId(user.getId())));//
 				token = Jwt.createToken(payload);
 				Map<String, String> tk = new HashMap<String, String>();
 				tk.put("ext", ext.toString());

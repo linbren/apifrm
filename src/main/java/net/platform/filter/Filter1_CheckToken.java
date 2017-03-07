@@ -37,9 +37,12 @@ public class Filter1_CheckToken implements Filter {
 			return;
 		}
 		// 其他API接口一律校验token
-		log.debug("开始校验token");
 		// 从请求头中获取token
 		String token = request.getHeader("token");
+		log.info("token:"+token);
+		log.info("version:"+request.getHeader("version"));
+		log.info("timestamp:"+request.getHeader("timestamp"));
+		
 		Map<String, Object> resultMap = Jwt.validToken(token);
 		TokenState state = TokenState.getTokenState((String) resultMap
 				.get("state"));

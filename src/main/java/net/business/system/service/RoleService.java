@@ -10,7 +10,9 @@ import net.platform.utils.page.PageUtil;
 public interface RoleService extends IBaseDao<TsRole, String>{
 	
 	public TsRole getRoleById(String id);
-	
+
+	public List<Object[]> getRoleIdsByUserId(String id);
+
 	public List<TsRole> getRoleByUserId(String id);
 	
 	public String getRoleByPage(PageUtil pageUtil,TsRole role);

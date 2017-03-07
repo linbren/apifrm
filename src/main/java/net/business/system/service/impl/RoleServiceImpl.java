@@ -28,7 +28,12 @@ public class RoleServiceImpl extends BaseDao<TsRole, String> implements RoleServ
 	public TsRole getRoleById(String id){
 		return get(TsRole.class,id);
 	}
-	
+	public List<Object[]> getRoleIdsByUserId(String id){
+		String sql = "select id from TS_ROLE where ID in("
+				+ "select ROLE_ID from TS_USER_ROLE where USER_ID = ?)";
+		List<Object[]> roleids = findListBySql(sql,0,0,new Object[]{id});
+		return roleids;
+	}
 	@Override
 	public List<TsRole> getRoleByUserId(String id) {
 		String sql = "select * from TS_ROLE where ID in("
