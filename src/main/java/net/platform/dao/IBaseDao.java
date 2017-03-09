@@ -3,8 +3,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-import org.hibernate.Query;
-
 import net.platform.utils.page.PageResults;
 import net.platform.utils.page.RowMapper;
  

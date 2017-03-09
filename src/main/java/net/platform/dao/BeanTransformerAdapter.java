@@ -34,7 +34,9 @@ Query query = getSession().createSQLQuery(sql).setResultTransformer(new BeanTran
  */  
 public class BeanTransformerAdapter<T> implements ResultTransformer {  
    
-    /** Logger available to subclasses */  
+	private static final long serialVersionUID = -5714768181479644459L;
+
+	/** Logger available to subclasses */  
     protected final Log                     logger              = LogFactory.getLog(getClass());  
    
     /** The class we are mapping to */  
