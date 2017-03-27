@@ -42,7 +42,6 @@ import org.springframework.orm.hibernate4.SessionFactoryUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-
 /**
  * @ClassName: BaseDao
  * @Description: baseDao实现
@@ -55,7 +54,7 @@ import org.springframework.util.Assert;
 @Repository
 @Transactional
 public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
-	protected Logger log = Logger.getLogger(this.getClass());
+    protected Logger log = Logger.getLogger(this.getClass());
 	@Autowired
 	private SessionFactory sessionFactory;
 	protected Class<T> entityClass;
@@ -385,11 +384,7 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
 	 */
 	@Override
 	public List<T> getListByHQL(String hqlString, Object... values) {
-		Query query = this
-				.getSession()
-				.createQuery(hqlString)
-				.setResultTransformer(
-						new BeanTransformerAdapter(getEntityClass()));
+		Query query = this.getSession().createQuery(hqlString);
 		if (values != null) {
 			for (int i = 0; i < values.length; i++) {
 				query.setParameter(i, values[i]);
@@ -474,14 +469,14 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
 	}
 
 	/*
-	 * 与getListBySQL的区别是不转换成T类，引起字段转换报错 不需要翻页就传入 sql,0,0
+	 * 与getListBySQL的区别是不转换成T类，引起字段转换报错
+	 * 不需要翻页就传入 sql,0,0
 	 */
-	public List<Object[]> findListBySql(String sql, int pageNo, int pageSize,
-			Object... values) {
+	public List<Object[]> findListBySql(String sql, int pageNo, int pageSize, Object... values) {
 
 		Query query = getSession().createSQLQuery(sql);
 		if (pageNo != 0 && pageSize != 0) {
-			query.setFirstResult(pageNo);
+			query.setFirstResult((pageNo - 1) * pageSize);
 			query.setMaxResults(pageSize);
 		}
 		if (values != null) {
@@ -490,35 +485,34 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
 			}
 		}
 		List list = query.list();
-		// if (list != null && !list.isEmpty()) {
-		// for (Object objs : list) {
-		// getSession().evict(objs);
-		// }
-		// }
+//		if (list != null && !list.isEmpty()) {
+//			for (Object objs : list) {
+//				getSession().evict(objs);
+//			}
+//		}
 		return list;
 	}
 
 	/*
 	 * 不需要翻页就传入 hql,0,0
 	 */
-	public List<Object[]> findListByHql(String hql, int pageNo, int pageSize,
-			Object... values) {
+	public List<Object[]> findListByHql(String hql, int pageNo, int pageSize, Object... values) {
 		Query query = getSession().createQuery(hql);
 		if (pageNo != 0 && pageSize != 0) {
-			query.setFirstResult(pageNo);
+			query.setFirstResult((pageNo - 1) * pageSize);
 			query.setMaxResults(pageSize);
 		}
 		if (values != null) {
 			for (int i = 0; i < values.length; i++) {
 				query.setParameter(i, values[i]);
 			}
-		}
+		}		
 		List list = query.list();
-		// if (list != null && !list.isEmpty()) {
-		// for (Object obj : list) {
-		// getSession().evict(obj);
-		// }
-		// }
+//		if (list != null && !list.isEmpty()) {
+//			for (Object obj : list) {
+//				getSession().evict(obj);
+//			}
+//		}
 		return list;
 	}
 
@@ -797,107 +791,101 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
 		}
 
 	}
-
-	/**
-	 * 返回此类的列的属性名称,不包含静态属性和Transient
-	 * 
-	 * @param entity
-	 * @return
-	 */
-	private List<String> getEntityColumnNameList(Class<?> cls) {
-		List<String> list = new ArrayList<String>();
-		Class<?> clazz = cls;
-		Field[] fs = clazz.getDeclaredFields();
-		String filedName = null;
-		for (Field field : fs) {
-			boolean isStatic = Modifier.isStatic(field.getModifiers());
-			if (isStatic)
-				continue;
-			field.setAccessible(true);
-			filedName = field.getName();
-			Annotation[] as = field.getAnnotations();
-			boolean isTransaction = false;
-			for (int i = 0; i < as.length; i++) {
-				Annotation a = as[i];
-				if (a instanceof Transient) {
-					isTransaction = true;
-					break;
-				}
-			}
-			if (!isTransaction) {
-				list.add(filedName);
-			}
-		}
-		return list;
-	}
-
-	/**
-	 * 得到除开指定名称的属性列
-	 */
-	protected List<String> getEntityColumnNames(Class<?> cls,
-			String... exceptCoulumns) {
-		List<String> nameList = getEntityColumnNameList(cls);
-		if (exceptCoulumns != null) {
-			for (String s : exceptCoulumns) {
-				nameList.remove(s);
-			}
-		}
-		return nameList;
-	}
-
-	/**
-	 * 得到除开指定名称的属性列
-	 */
-	protected List<String> getEntityColumnNames(Class<?> cls,
-			List<String> exceptCoulumns) {
-		List<String> nameList = getEntityColumnNameList(cls);
-		if (exceptCoulumns != null) {
-			for (String s : exceptCoulumns) {
-				nameList.remove(s);
-			}
-		}
-		return nameList;
-	}
-
-	public List<T> callProcedure(String procString, List<Object> params)
-			throws Exception {
-
-		ResultSet rs = null;
-		CallableStatement stmt = null;
-		try {
-			stmt = (CallableStatement) SessionFactoryUtils
-					.getDataSource(this.getSessionFactory()).getConnection()
-					.prepareCall(procString);
-			if (params != null) {
-				int idx = 1;
-				for (Object obj : params) {
-					if (obj != null) {
-						stmt.setObject(idx, obj);
-					} else {
-						stmt.setNull(idx, Types.NULL);
-					}
-					idx++;
-				}
-			}
-			rs = stmt.executeQuery();
-			List list = new ArrayList();
-			ResultSetMetaData md = rs.getMetaData(); // 得到结果集(rs)的结构信息，比如字段数、字段名等
-			int columnCount = md.getColumnCount(); // 返回此 ResultSet 对象中的列数
-			Map rowData = new HashMap();
-			while (rs.next()) {
-				rowData = new HashMap(columnCount);
-				for (int i = 1; i <= columnCount; i++) {
-					rowData.put(md.getColumnName(i), rs.getObject(i));
-				}
-				list.add(rowData);
-			}
-			return list;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new Exception("调用存储过程的时候发生错误[sql = " + procString + "]", e);
-		} finally {
-			rs.close();
-			stmt.close();
-		}
-	}
+ 
+	    /** 
+	     * 返回此类的列的属性名称,不包含静态属性和Transient 
+	     * @param entity 
+	     * @return 
+	     */  
+	    private List<String> getEntityColumnNameList(Class<?> cls){  
+	           List<String> list=new ArrayList<String>();  
+	           Class<?> clazz=cls;  
+	           Field[] fs=clazz.getDeclaredFields();          
+	           String filedName=null;  
+	           for(Field field:fs){  
+	               boolean isStatic = Modifier.isStatic(field.getModifiers());  
+	               if(isStatic)  
+	                   continue;  
+	               field.setAccessible(true);  
+	               filedName=field.getName();  
+	               Annotation[] as=field.getAnnotations();  
+	               boolean isTransaction=false;  
+	               for(int i=0;i<as.length;i++){  
+	                   Annotation a=as[i];  
+	                   if(a instanceof Transient){            
+	                       isTransaction=true;  
+	                       break;  
+	                   }  
+	               }  
+	               if(!isTransaction){  
+	                   list.add(filedName);  
+	               }  
+	           }  
+	           return list;  
+	    }  
+	      
+	    /** 
+	     * 得到除开指定名称的属性列  
+	     */  
+	    protected List<String> getEntityColumnNames(Class<?> cls,String... exceptCoulumns){  
+	        List<String> nameList=getEntityColumnNameList(cls);  
+	        if(exceptCoulumns!=null){  
+	            for(String s:exceptCoulumns){  
+	                nameList.remove(s);  
+	            }  
+	        }  
+	        return nameList;  
+	    }  
+	      
+	    /** 
+	     * 得到除开指定名称的属性列  
+	     */  
+	    protected List<String> getEntityColumnNames(Class<?> cls,List<String> exceptCoulumns){  
+	        List<String> nameList=getEntityColumnNameList(cls);  
+	        if(exceptCoulumns!=null){  
+	            for(String s:exceptCoulumns){  
+	                nameList.remove(s);  
+	            }  
+	        }  
+	        return nameList;  
+	    }  
+	    public List<T> callProcedure(String procString, List<Object> params) throws Exception {  
+	    	  
+	        ResultSet rs = null;  
+	        CallableStatement stmt = null;  
+	        try {  
+	            stmt = (CallableStatement)SessionFactoryUtils.getDataSource(this.getSessionFactory()).getConnection()  
+	                    .prepareCall(procString);  
+	            if (params != null) {  
+	                int idx = 1;  
+	                for (Object obj : params) {  
+	                    if (obj != null) {  
+	                        stmt.setObject(idx, obj);  
+	                    } else {  
+	                        stmt.setNull(idx, Types.NULL);  
+	                    }  
+	                    idx++;  
+	                }  
+	            }  
+	            rs = stmt.executeQuery();  
+	            List list = new ArrayList();  
+	            ResultSetMetaData md = rs.getMetaData(); // 得到结果集(rs)的结构信息，比如字段数、字段名等  
+	            int columnCount = md.getColumnCount(); // 返回此 ResultSet 对象中的列数  
+	            Map rowData = new HashMap();  
+	            while (rs.next()) {  
+	                rowData = new HashMap(columnCount);  
+	                for (int i = 1; i <= columnCount; i++) {  
+	                    rowData.put(md.getColumnName(i), rs.getObject(i));  
+	                }  
+	                list.add(rowData);  
+	            }  
+	            return list;  
+	        } catch (SQLException e) {  
+	            e.printStackTrace();  
+	            throw new Exception("调用存储过程的时候发生错误[sql = " + procString + "]", e);  
+	        } finally {  
+	            rs.close();  
+	            stmt.close();  
+	        }  
+	    }   
 }
