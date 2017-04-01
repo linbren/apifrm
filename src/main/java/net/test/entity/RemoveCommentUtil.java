@@ -8,7 +8,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;  
    
    
-public class RemoveContentUtil  
+public class RemoveCommentUtil  
 {  
 	//有/* *等相关的注释 
 	//private static String regex ="(?<!:)\\/\\/.*|\\/\\*(\\s|.)*?\\*\\/";

@@ -27,7 +27,7 @@ import org.hibernate.annotations.CascadeType;
 */ 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "TS_USER", schema = "")
+@Table(name = "VW_USER", schema = "")
 public class TsUser implements java.io.Serializable {
     /** ID*/ 
     @Column(name = "ID")

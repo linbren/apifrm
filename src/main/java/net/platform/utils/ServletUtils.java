@@ -585,7 +585,7 @@ public class ServletUtils {
 	 * @param jsonStr
 	 */
 	public static void outPrintJson(HttpServletResponse response, String jsonStr) {
-		response.setContentType("application/json");
+		response.setContentType("application/json;charset=UTF-8");
 		response.setHeader("Cache-Control", "no-store");
 		logger.info(jsonStr);
 		try {
@@ -616,7 +616,7 @@ public class ServletUtils {
 	public static void outPrintObjectToJson(HttpServletResponse response,
 			Object obj) {
 		response.setHeader("Cache-Control", "no-store");
-		response.setContentType("application/json");
+		response.setContentType("application/json;charset=UTF-8");
 		String json = JSON.toJSONString(obj,
 				SerializerFeature.WriteMapNullValue,
 				SerializerFeature.WriteNullStringAsEmpty,

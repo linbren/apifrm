@@ -96,7 +96,7 @@ public class SystemTest extends BaseTest {
 		try {
 			Header[] headers = HttpHeader.custom().userAgent("javacl")
 					.contentType("application/json")
-					.other("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJhZG1pbiIsInJvbGVzIjoiW3tcImFwcElkXCI6XCIxMDAwXCIsXCJmdW5jdGlvbnNcIjpbXSxcImlkXCI6XCIxXCIsXCJyZW1hcmtcIjpcIueuoeeQhuWRmFwiLFwicm9sZU5hbWVcIjpcIueuoeeQhuWRmFwiLFwic3RhdHVzXCI6XCIxXCIsXCJ1c2Vyc1wiOltdfSx7XCJhcHBJZFwiOlwiMTAwMFwiLFwiZnVuY3Rpb25zXCI6W10sXCJpZFwiOlwiNFwiLFwicmVtYXJrXCI6XCLmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5XmtYvor5VcIixcInJvbGVOYW1lXCI6XCLmtYvor5VcIixcInN0YXR1c1wiOlwiMFwiLFwidXNlcnNcIjpbXX0se1wiYXBwSWRcIjpcIjMwMDBcIixcImZ1bmN0aW9uc1wiOltdLFwiaWRcIjpcIjhcIixcInJlbWFya1wiOlwiQVBJ566h55CG5ZGYXCIsXCJyb2xlTmFtZVwiOlwiQVBJ566h55CG5ZGYXCIsXCJzdGF0dXNcIjpcIjFcIixcInVzZXJzXCI6W119XSIsImlhdCI6MTQ4ODg3NDE4ODYwNiwiZXh0IjoxNDg4ODgxMzg4NjA2fQ.83kFyEWTYJWTcJJovoBgKJE2ro_X2y-e-tuEUj2JFfk")
+					.other("token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHQiOjE0OTA2Nzg2ODc1MTgsInVpZCI6ImFkbWluIiwiaWF0IjoxNDkwNjcxNDg3NTE4LCJyb2xlcyI6IlsxLDQsOF0ifQ.lGnnaqqreDUqT-_G_V21sMx0kUYAl7y96huTSuJZYcw")
 					.other("version", "3")
 					.other("timestamp", (new Date()).toString())
 					.build();
