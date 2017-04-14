@@ -151,9 +151,9 @@ public class MailUtils {
 		StringBuffer sb = new StringBuffer();
 		sb.append("请简明地描述问题，小易会即时为您解答，记得给小易服务做评价哈");
 		// 设置smtp服务器以及邮箱的帐号和密码
-		cn.setHost("smtp.163.com", "dtagri@163.com", "dingtiandtagri");
+		cn.setHost("smtp.163.com", "send@163.com", "psd");
 		// 设置发件人地址、收件人地址和邮件标题
-		cn.setAddress("botrading@qq.com", "", "");
+		cn.setAddress("rec@qq.com", "", "");
 		// 设置邮件标题和内容
 		cn.setContent("我是小易", sb.toString());
 		// 设置要发送附件的位置和标题
