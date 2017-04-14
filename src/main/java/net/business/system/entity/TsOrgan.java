@@ -71,12 +71,12 @@ public class TsOrgan implements java.io.Serializable {
     @Cascade({CascadeType.REFRESH})
     private TsArea area = new TsArea();
     
-    @OneToMany(mappedBy="organ",fetch=FetchType.EAGER,
+   /* @OneToMany(mappedBy="organ",fetch=FetchType.EAGER,
     		targetEntity=TsUser.class)
-    private Set<TsUser> users = new HashSet<TsUser>();
+    private Set<TsUser> users = new HashSet<TsUser>();*/
     
-    @OneToOne(fetch=FetchType.LAZY,targetEntity=TsOrganExt.class)
-    @Cascade({CascadeType.SAVE_UPDATE,CascadeType.REMOVE})
+    @OneToOne(fetch=FetchType.EAGER,targetEntity=TsOrganExt.class)
+    @Cascade({CascadeType.SAVE_UPDATE,CascadeType.REMOVE,CascadeType.DELETE})
     @PrimaryKeyJoinColumn
     private TsOrganExt organExt = new TsOrganExt();
     
@@ -295,24 +295,6 @@ public class TsOrgan implements java.io.Serializable {
      */
 	public void setArea(TsArea area) {
 		this.area = area;
-	}
-	 /**
-     * getUsers
-     * @author yiting lin
-     * @created 2017-01-10 15:50:00
-     * @return Set<TsUser>
-     */
-	public Set<TsUser> getUsers() {
-		return users;
-	}
-	/**
-     * setUsers
-     * @author yiting lin
-     * @created 2017-01-10 15:50:00
-     * @return USERS
-     */
-	public void setUsers(Set<TsUser> users) {
-		this.users = users;
 	}
 	public TsOrganExt getOrganExt() {
 		return organExt;

@@ -27,7 +27,7 @@ import org.hibernate.annotations.CascadeType;
 */ 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "VW_USER", schema = "")
+@Table(name = "TS_USER", schema = "")
 public class TsUser implements java.io.Serializable {
     /** ID*/ 
     @Column(name = "ID")
@@ -84,7 +84,7 @@ public class TsUser implements java.io.Serializable {
     private String remark;
     /** TS_USER_ROLE*/
     @ManyToMany(fetch = FetchType.EAGER,targetEntity=TsRole.class)
-    @Cascade({CascadeType.SAVE_UPDATE,CascadeType.REMOVE})
+    @Cascade({CascadeType.SAVE_UPDATE,CascadeType.REFRESH})
     @JoinTable(name = "TS_USER_ROLE", joinColumns = {@JoinColumn(name="USER_ID")},
     inverseJoinColumns = {@JoinColumn(name="ROLE_ID")})
     private Set<TsRole> roles=new HashSet<TsRole>();

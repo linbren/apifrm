@@ -1,4 +1,4 @@
-package net.test.entity;
+package net.test.tools;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -65,9 +65,9 @@ public class TsFunction  implements java.io.Serializable {
     @Column(name = "REMARK")
     private String remark;
     /** TS_ROLE_FUNCTION*/
-    @ManyToMany(mappedBy="functions",fetch=FetchType.EAGER,targetEntity=TsRole.class,
+    /*@ManyToMany(mappedBy="functions",fetch=FetchType.EAGER,targetEntity=TsRole.class,
     		cascade=CascadeType.REFRESH)
-    private Set<TsRole> roles = new HashSet<TsRole>();
+    private Set<TsRole> roles = new HashSet<TsRole>();*/
     
     /**
     * setId
@@ -303,24 +303,6 @@ public class TsFunction  implements java.io.Serializable {
     public String getRemark(){
         return remark;
     }
-    /**
-     * getRoles
-     * @author zhangxin
-     * @created 2016-12-13 15:54:34
-     * @return Set<TsRole>
-     */
-	public Set<TsRole> getRoles() {
-		return roles;
-	}
-	/**
-	 * setRoles
-	 * @author zhangxin
-	 * @created 2016-12-13 15:54:34
-	 * @param Set<TsRole>
-	 */
-	public void setRoles(Set<TsRole> roles) {
-		this.roles = roles;
-	}
     
 }
 

@@ -62,9 +62,9 @@ public class TsArea implements java.io.Serializable {
     /** REMARK*/ 
     @Column(name = "REMARK")
     private String remark;
-    @OneToMany(mappedBy="area",fetch=FetchType.EAGER)
+/*    @OneToMany(mappedBy="area",fetch=FetchType.EAGER)
     @Cascade(CascadeType.REFRESH)
-    private Set<TsOrgan> organs = new HashSet<TsOrgan>();
+    private Set<TsOrgan> organs = new HashSet<TsOrgan>();*/
     
     /**
     * setId
@@ -282,24 +282,6 @@ public class TsArea implements java.io.Serializable {
     public String getRemark(){
         return remark;
     }
-    /**
-     * getOrgans
-     * @author yiting lin
-     * @created 2016-12-15 15:19:58
-     * @return Set<TsOrgan>
-     */ 
-	public Set<TsOrgan> getOrgans() {
-		return organs;
-	}
-	/**
-     * setOrgans
-     * @author yiting lin
-     * @created 2016-12-15 15:19:58
-     * @return REMARK
-     */
-	public void setOrgans(Set<TsOrgan> organs) {
-		this.organs = organs;
-	}
     
 }
 
