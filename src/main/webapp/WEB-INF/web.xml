@@ -20,13 +20,13 @@
 			Mybatis - > spring -> springmvc -->
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath*:applicationContext*.xml,classpath*:springMVC*.xml</param-value>
+			<param-value>classpath*:applicationContext*.xml,classpath*:springMVC*.xml,classpath*:spring-ehcache.xml</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>DispatcherServlet</servlet-name>
 		<!-- 默认匹配所有的请求 -->
-		<url-pattern>/</url-pattern>
+		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 	<!-- 配置错误处理 -->
 	<error-page>

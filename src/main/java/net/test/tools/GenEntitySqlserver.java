@@ -23,7 +23,7 @@ public class GenEntitySqlserver {
     
     private String packageOutPath = "net.business.test.entity";//指定实体生成所在包的路径
     private String authorName = "yiting lin";//作者名字
-    private String tablename = "TS_FUNCTION";//表名
+    private String tablename = "TS_API_CONTROL";//表名
     private String[] stabletemp; 
     String stable="";
     private String[] colnames; // 列名数组
@@ -95,6 +95,8 @@ public class GenEntitySqlserver {
                 System.out.println("src/?/"+path.substring(path.lastIndexOf("/net/", path.length())) );
 //              String outputPath = directory.getAbsolutePath()+ "/src/"+path.substring(path.lastIndexOf("/com/", path.length()), path.length()) + initcap(tablename) + ".java";
                 String outputPath = directory.getAbsolutePath()+ "/src/main/java/"+this.packageOutPath.replace(".", "/")+"/"+stable + ".java";
+                System.out.println("outputPath:"+outputPath);
+
                 FileWriter fw = new FileWriter(outputPath);
                 PrintWriter pw = new PrintWriter(fw);
                 pw.println(content);
@@ -286,7 +288,7 @@ public class GenEntitySqlserver {
                 || sqlType.equalsIgnoreCase("varchar2")
         		|| sqlType.equalsIgnoreCase("numeric identity")){
             return "String";
-        }else if(sqlType.equalsIgnoreCase("date") || sqlType.equalsIgnoreCase("timestamp")
+        }else if(sqlType.equalsIgnoreCase("datetime") ||sqlType.equalsIgnoreCase("date") || sqlType.equalsIgnoreCase("timestamp")
                  || sqlType.equalsIgnoreCase("timestamp with local time zone") 
                  || sqlType.equalsIgnoreCase("timestamp with time zone")){
             return "Date";

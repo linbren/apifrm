@@ -212,7 +212,7 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.4</version>
+			<version>2.5</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-codec</groupId>
@@ -265,11 +265,11 @@
 			<artifactId>httpclientUtil</artifactId>
 			<version>3.0-beta</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
 		<dependency>
-			<groupId>org.apache.tomcat</groupId>
-			<artifactId>tomcat-servlet-api</artifactId>
-			<version>8.0.30</version>
-			<scope>provided</scope>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>2.10.3</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -281,7 +281,7 @@
 				<version>2.2</version>
 				<configuration>
 					<port>8091</port>
-					<path>/</path>
+					<path>/api</path>
 					<uriEncoding>UTF-8</uriEncoding>
 					<finalName>api</finalName>
 					<server>tomcat7</server>
@@ -300,7 +300,7 @@
 					<stopKey>stop</stopKey>
 					<scanIntervalSeconds>10</scanIntervalSeconds>
 					<webApp>
-						<contextPath>/</contextPath>
+						<contextPath>/api</contextPath>
 					</webApp>
 				</configuration>
 			</plugin>
@@ -309,8 +309,9 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<fork>true</fork>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 			<plugin>

@@ -16,13 +16,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.api.ApiResp;
 import net.api.RetMsg;
+import net.business.system.service.ApiControlService;
+import net.business.system.service.impl.ApiControlServiceImpl;
+import net.business.system.service.impl.CacheInit;
 import net.platform.jwt.Jwt;
 import net.platform.jwt.TokenState;
+import net.platform.listener.CacheListener;
+import net.platform.utils.ResourceUtil;
 import net.platform.utils.ServletUtils;
 
 import org.apache.log4j.Logger;
 
-@WebFilter(urlPatterns = "/api/*")
+@WebFilter(urlPatterns = "/*")
 public class Filter1_CheckToken implements Filter {
 	protected Logger log = Logger.getLogger(this.getClass());
 	private ApiResp resp = new ApiResp();
@@ -31,7 +36,10 @@ public class Filter1_CheckToken implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) argo;
 		HttpServletResponse response = (HttpServletResponse) arg1;
-		if (request.getRequestURI().endsWith("/api/login")) {
+		String requestpath=ResourceUtil.getRequestPath(request);
+		//APIS的获取要改到系统启动时初始化
+		//1白名单API不拦截"login.do?getToken".equalsIgnoreCase(requestpath)
+		if (CacheListener.whiteApis.contains(requestpath)) {
 			// 登陆接口不校验token，直接放行
 			chain.doFilter(request, response);
 			return;
@@ -81,6 +89,7 @@ public class Filter1_CheckToken implements Filter {
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
 		log.debug("token过滤器初始化了");
+		
 	}
 
 	@Override

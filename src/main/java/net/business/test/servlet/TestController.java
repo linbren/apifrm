@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/api/test")
+@RequestMapping("/test")
 public class TestController extends BaseController{
 	@Autowired
     private TestService testService;

@@ -1,9 +1,12 @@
-package net.platform.jwt;
+package apifrm.test;
 
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import net.platform.jwt.Jwt;
+import net.platform.jwt.TokenState;
 
 import org.junit.Test;
 
