@@ -11,7 +11,6 @@ import net.platform.utils.HttpUtil;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -21,10 +20,9 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.junit.Test;
 
-import com.httpclient.HttpClientUtil;
-import com.httpclient.builder.HCB;
-import com.httpclient.common.HttpConfig;
-import com.httpclient.common.HttpHeader;
+import com.arronlong.httpclientutil.HttpClientUtil;
+import com.arronlong.httpclientutil.common.HttpConfig;
+import com.arronlong.httpclientutil.common.HttpHeader;
 
 public class SystemTest extends BaseTest {
 	private final String baseUrl = "http://localhost:8091/";
@@ -96,7 +94,7 @@ public class SystemTest extends BaseTest {
 		try {
 			Header[] headers = HttpHeader.custom().userAgent("javacl")
 					.contentType("application/json")
-					.other("token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHQiOjE0OTA2Nzg2ODc1MTgsInVpZCI6ImFkbWluIiwiaWF0IjoxNDkwNjcxNDg3NTE4LCJyb2xlcyI6IlsxLDQsOF0ifQ.lGnnaqqreDUqT-_G_V21sMx0kUYAl7y96huTSuJZYcw")
+					.other("token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHQiOjE0OTgwMjE4ODk2NjEsInVpZCI6ImFkbWluIiwiaWF0IjoxNDk4MDE0Njg5NjYxLCJyb2xlcyI6IlsxXSJ9.n6tPIpImZOCHe9wG6WrnULOGn-rx8cVEX3-6jGQrVe4")
 					.other("version", "3")
 					.other("timestamp", (new Date()).toString())
 					.build();

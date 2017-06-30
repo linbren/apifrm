@@ -39,7 +39,8 @@ public class Filter1_CheckToken implements Filter {
 		String requestpath=ResourceUtil.getRequestPath(request);
 		//APIS的获取要改到系统启动时初始化
 		//1白名单API不拦截"login.do?getToken".equalsIgnoreCase(requestpath)
-		if (CacheListener.whiteApis.contains(requestpath)) {
+		//if (CacheListener.whiteApis.contains(requestpath)) {
+		if ("login.do?getToken".equalsIgnoreCase(requestpath)) {
 			// 登陆接口不校验token，直接放行
 			chain.doFilter(request, response);
 			return;

@@ -261,9 +261,9 @@
 			<version>2.2.1</version>
 		</dependency>
 		<dependency>
-			<groupId>com.httpclient</groupId>
-			<artifactId>httpclientUtil</artifactId>
-			<version>3.0-beta</version>
+			<groupId>com.arronlong.httpclientutil</groupId>
+			<artifactId>httpclientutil</artifactId>
+			<version>1.0</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
 		<dependency>
@@ -318,7 +318,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
-					<version>3.0</version>
+<!--					<version>3.0</version>-->
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
